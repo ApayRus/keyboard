@@ -1,0 +1,68 @@
+.key {
+	min-height: 3.4375rem; /*3.4375*16 = 55px*/
+	/* 
+	rem is a value relative to the default font size of the teg <body> 
+	1rem is 16px in our case 
+	*/
+	background-color: black;
+	color: white;
+	padding: 0.5rem; /*spacing inside the button*/
+	margin: 0.2rem; /*spacing outside the button*/
+	border-radius: 0.2rem; /*rounded corners*/
+	font-size: 1.5rem;
+	cursor: pointer;
+	flex: 1;
+}
+
+.key.active {
+	background-color: red;
+}
+
+.row {
+	display: flex;
+	/* 
+	flex-direction: row; - default value
+	that's why or divs arranged in a row. 
+
+	Flex is a style for containers to align/justify elements inside them in different ways.
+	*/
+}
+
+.key.Tab {
+	flex: 1.3;
+}
+
+.row-1 .key {
+	min-height: 1rem; /* rewrite min-height from .key */
+	font-size: 0.7rem;
+}
+
+.langSwitcher {
+	display: flex;
+	justify-content: center; /* center horizontally  */
+	margin-bottom: 1rem;
+}
+
+.lang {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 1rem;
+	cursor: pointer;
+	display: flex;
+	/* flex-direction: row; -- by default */
+
+	justify-content: center; /* position of element related to main flex-direction (row) 
+	-- horizontal alignment */
+
+	align-items: center; /* position of element related to additional flex-direction (column) 
+	-- vertical alignment */
+}
+
+.lang:hover {
+	opacity: 0.7;
+}
+
+.langSwitcher .active {
+	background-color: red;
+	color: white;
+}
