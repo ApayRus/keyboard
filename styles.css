@@ -66,3 +66,27 @@
 	background-color: red;
 	color: white;
 }
+
+/* temporary styles  */
+
+#app {
+	background-color: red;
+	padding: 10px;
+}
+
+.langSwitcher {
+	background-color: green;
+	padding: 10px;
+}
+
+.keyboard {
+	background-color: blue;
+	padding: 10px;
+	display: flex; /*to display keys in a row, on the next step*/
+}
+
+.key {
+	background-color: yellow;
+	padding: 10px;
+	color: black;
+}
