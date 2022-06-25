@@ -5,7 +5,8 @@ const keyboard = [
 		{ code: 'F2' },
 		{ code: 'F3' },
 		{ code: 'F4' },
-		{ code: 'F5' }
+		{ code: 'F5' },
+		{ code: 'F6' }
 	],
 	[
 		{

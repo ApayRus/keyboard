@@ -1,38 +1,37 @@
 import Key from './Key.js'
+/* delete: 
 import keyboardData from '../keyboardData/en.js'
+* we receive it from prop 
+*/
 
 const Keyboard = {
 	template: `
-    <div class="keyboard">
-        <div class="row row-1">
-            <vue-key :keyContent="keyboardData[0][0]" />
-            <vue-key :keyContent="keyboardData[0][1]" />
-            <vue-key :keyContent="keyboardData[0][2]" />
-            <vue-key :keyContent="keyboardData[0][3]" />
-            <vue-key :keyContent="keyboardData[0][4]" />
-            <vue-key :keyContent="keyboardData[0][5]" />
-        </div>
-        <div class="row row-2">
-            <vue-key :keyContent="keyboardData[1][0]" />
-            <vue-key :keyContent="keyboardData[1][1]" />
-            <vue-key :keyContent="keyboardData[1][2]" />
-            <vue-key :keyContent="keyboardData[1][3]" />
-            <vue-key :keyContent="keyboardData[1][4]" />
-            <vue-key :keyContent="keyboardData[1][5]" />
-        </div>
-        <div class="row row-3">
-            <vue-key :keyContent="keyboardData[2][0]" />
-            <vue-key :keyContent="keyboardData[2][1]" />
-            <vue-key :keyContent="keyboardData[2][2]" />
-            <vue-key :keyContent="keyboardData[2][3]" />
-            <vue-key :keyContent="keyboardData[2][4]" />
-        </div>
-    </div>`,
+  <div class="keyboard">
+      <div 
+          v-for="(row, index) in keyboardData" 
+          :class="['row', 'row-'+(index+1)]"
+      >
+          <vue-key 
+              v-for="keyContent in row" 
+              :keyContent="keyContent" 
+          />
+      </div>
+  </div>
+`,
 	components: {
 		'vue-key': Key
 	},
+	/* add: */
+	mounted() {
+		/* dynamic import from file */
+		import(`../keyboardData/en.js`).then(result => {
+			const { default: keyboardData } = result
+			/* update state with received data */
+			this.keyboardData = keyboardData
+		})
+	},
 	data() {
-		return { keyboardData }
+		return { keyboardData: [] }
 	}
 }
 
