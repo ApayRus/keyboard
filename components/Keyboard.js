@@ -12,6 +12,7 @@ const Keyboard = {
 				v-for="keyContent in row"
 				:keyContent="keyContent" 
 				:activeKey="activeKey" 
+				:setActiveKey="setActiveKey" 
 			/>
 		</div>
 	</div>`,
@@ -38,14 +39,8 @@ const Keyboard = {
 
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
-			/* add: (read particular props of event) */
 			const { code, key, shiftKey } = event
-			/* write event parts to the state: */
-			this.activeKey = { code, key, shiftKey }
-			/* if there was old timeout, we clear it*/
-			clearTimeout(this.timeout)
-			/* store a new timeout for the last pressed key */
-			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
+			this.setActiveKey({ code, key, shiftKey })
 		})
 	},
 
@@ -55,6 +50,11 @@ const Keyboard = {
 				`../keyboardData/${lang}.js`
 			)
 			this.keyboardData = keyboardData
+		},
+		setActiveKey(keyContent) {
+			this.activeKey = keyContent
+			clearTimeout(this.timeout)
+			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
 		}
 	}
 }

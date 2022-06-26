@@ -25,17 +25,16 @@ const getKeyLabels = keyContent => {
 const Key = {
 	template: `
     <div
-		:class="[
-				'key', 
-				{active: activeKey.code === keyContent.code}
-				]"
+		:class="['key', {active: activeKey.code === keyContent.code}]"
+		@click="setActiveKey(keyContent)"
 	>
-	<div class="main">{{main}}</div>
-	<div class="shifted">{{shifted}}</div>
-</div>`,
+		<div class="main">{{main}}</div>
+		<div class="shifted">{{shifted}}</div>
+	</div>`,
 	props: {
 		keyContent: Object,
-		activeKey: Object
+		activeKey: Object,
+		setActiveKey: Function
 	},
 	computed: {
 		main() {
