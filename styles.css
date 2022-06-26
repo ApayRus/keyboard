@@ -37,6 +37,11 @@
 	font-size: 0.7rem;
 }
 
+.key.shiftKeyPressed {
+	color: red;
+	font-weight: bold;
+}
+
 .langSwitcher {
 	display: flex;
 	justify-content: center; /* center horizontally  */

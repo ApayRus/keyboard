@@ -3,6 +3,7 @@ import Key from './Key.js'
 const Keyboard = {
 	template: `
 	<div>activeKey: {{activeKey}}</div>
+	<div>shiftKey: {{shiftKey}}</div>
 	<div class="keyboard">
 		<div
 			v-for="(row, index) in keyboardData"
@@ -13,6 +14,8 @@ const Keyboard = {
 				:keyContent="keyContent" 
 				:activeKey="activeKey" 
 				:setActiveKey="setActiveKey" 
+				:toggleShiftKey="toggleShiftKey" 
+				:shiftKey="shiftKey" 
 			/>
 		</div>
 	</div>`,
@@ -22,8 +25,9 @@ const Keyboard = {
 	data() {
 		return {
 			keyboardData: [],
+			activeKey: { code: '' },
 			/* add: */
-			activeKey: { code: '' }
+			shiftKey: false
 		}
 	},
 	props: {
@@ -39,8 +43,23 @@ const Keyboard = {
 
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
-			const { code, key, shiftKey } = event
-			this.setActiveKey({ code, key, shiftKey })
+			const { code, shiftKey } = event
+			const keyContent = this.keyboardData
+				.flat()
+				.find(elem => elem.code === code)
+			this.setActiveKey(keyContent)
+		})
+
+		window.addEventListener('keydown', event => {
+			if (event.key === 'Shift') {
+				this.shiftKey = true
+			}
+		})
+
+		window.addEventListener('keyup', event => {
+			if (event.key === 'Shift') {
+				this.shiftKey = false
+			}
 		})
 	},
 
@@ -55,6 +74,9 @@ const Keyboard = {
 			this.activeKey = keyContent
 			clearTimeout(this.timeout)
 			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
+		},
+		toggleShiftKey() {
+			this.shiftKey = !this.shiftKey
 		}
 	}
 }

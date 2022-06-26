@@ -62,6 +62,16 @@ const keyboard = [
 			main: 'ق',
 			shifted: 'ٌ'
 		}
+	],
+	[
+		{
+			code: 'ShiftLeft',
+			label: 'Shift'
+		},
+		{
+			code: 'ShiftRight',
+			label: 'Shift'
+		}
 	]
 ]
 

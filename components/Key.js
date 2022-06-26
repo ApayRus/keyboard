@@ -25,8 +25,13 @@ const getKeyLabels = keyContent => {
 const Key = {
 	template: `
     <div
-		:class="['key', {active: activeKey.code === keyContent.code}]"
-		@click="setActiveKey(keyContent)"
+		:class="[
+			'key', 
+			keyContent.code, 
+			{ active: isActive }, 
+			{ shiftKeyPressed: isShift && shiftKey && !isActive }
+		]"
+		@click="keyClick(keyContent)"
 	>
 		<div class="main">{{main}}</div>
 		<div class="shifted">{{shifted}}</div>
@@ -34,7 +39,9 @@ const Key = {
 	props: {
 		keyContent: Object,
 		activeKey: Object,
-		setActiveKey: Function
+		setActiveKey: Function,
+		toggleShiftKey: Function,
+		shiftKey: Boolean
 	},
 	computed: {
 		main() {
@@ -44,6 +51,20 @@ const Key = {
 		shifted() {
 			const { shifted } = getKeyLabels(this.keyContent)
 			return shifted
+		},
+		isActive() {
+			return this.activeKey.code === this.keyContent.code
+		},
+		isShift() {
+			return this.keyContent.code.includes('Shift')
+		}
+	},
+	methods: {
+		keyClick(keyContent) {
+			this.setActiveKey(keyContent)
+			if (keyContent.code.includes('Shift')) {
+				this.toggleShiftKey()
+			}
 		}
 	}
 }

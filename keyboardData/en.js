@@ -62,6 +62,16 @@ const keyboard = [
 			main: 'r',
 			shifted: 'R'
 		}
+	],
+	[
+		{
+			code: 'ShiftLeft',
+			label: 'Shift'
+		},
+		{
+			code: 'ShiftRight',
+			label: 'Shift'
+		}
 	]
 ]
 
