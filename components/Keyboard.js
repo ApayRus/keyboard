@@ -10,7 +10,8 @@ const Keyboard = {
 		>
 			<vue-key
 				v-for="keyContent in row"
-				:keyContent="keyContent"
+				:keyContent="keyContent" 
+				:activeKey="activeKey" 
 			/>
 		</div>
 	</div>`,
@@ -41,6 +42,10 @@ const Keyboard = {
 			const { code, key, shiftKey } = event
 			/* write event parts to the state: */
 			this.activeKey = { code, key, shiftKey }
+			/* if there was old timeout, we clear it*/
+			clearTimeout(this.timeout)
+			/* store a new timeout for the last pressed key */
+			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
 		})
 	},
 

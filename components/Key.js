@@ -24,12 +24,18 @@ const getKeyLabels = keyContent => {
 
 const Key = {
 	template: `
-    <div class="key">
-        <div class="main">{{main}}</div>
-        <div class="shifted">{{shifted}}</div>
-    </div>`,
+    <div
+		:class="[
+				'key', 
+				{active: activeKey.code === keyContent.code}
+				]"
+	>
+	<div class="main">{{main}}</div>
+	<div class="shifted">{{shifted}}</div>
+</div>`,
 	props: {
-		keyContent: Object
+		keyContent: Object,
+		activeKey: Object
 	},
 	computed: {
 		main() {
