@@ -26,13 +26,15 @@ const Key = {
 	template: `
     <div
 		:class="[
-			'key', 
-			keyContent.code, 
-			{ active: isActive }, 
-			{ shiftKeyPressed: isShift && shiftKey && !isActive }
-		]"
+					'key', 
+					keyContent.code, 
+					{ shiftKeyPressed: isShift && shiftKey && !isActive }
+				]"
 		@click="keyClick(keyContent)"
 	>
+		<div v-if="isActive" :class="['key', 'active', keyContent.code]">
+			<div>{{value}}</div>
+		</div>
 		<div class="main">{{main}}</div>
 		<div class="shifted">{{shifted}}</div>
 	</div>`,
@@ -57,6 +59,10 @@ const Key = {
 		},
 		isShift() {
 			return this.keyContent.code.includes('Shift')
+		},
+		value() {
+			const { main, shifted, code } = this.keyContent
+			return (this.shiftKey ? shifted : main) || code
 		}
 	},
 	methods: {
