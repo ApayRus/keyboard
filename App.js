@@ -2,18 +2,35 @@ import Keyboard from './components/Keyboard.js'
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-	template: `App 
-	<vue-lang-switcher :langs="langs" />
+	template: `App-{{currentLang}}
+	<vue-lang-switcher 
+		:langs="langs" 
+		:switchLang="switchLang" 
+		:currentLang="currentLang" 
+	/>
 	<vue-keyboard />
 	`,
 	components: {
 		'vue-lang-switcher': LangSwitcher,
 		'vue-keyboard': Keyboard
 	},
-	/* add: */
+	mounted() {
+		import(`./keyboardData/en.js`).then(result => {
+			const { default: keyboardData } = result
+			this.keyboardData = keyboardData
+		})
+	},
 	data() {
 		return {
-			langs: ['en', 'ru', 'ar']
+			langs: ['en', 'ru', 'ar'],
+			/* add: */
+			currentLang: 'en'
+		}
+	},
+	/* add: */
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
 		}
 	}
 }

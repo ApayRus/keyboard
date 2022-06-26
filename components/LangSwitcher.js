@@ -8,25 +8,25 @@ const LangSwitcher = {
 		>
 			{{lang}}
 		</div>
-    </div>
-	<div style="text-align: center;">
-		{{currentLang}}
 	</div>`,
 	props: {
-		langs: Array
-	},
-	/* add: */
+		langs: Array,
+		/* add: */
+		currentLang: String,
+		switchLang: Function
+	}
+	/* delete: 
 	data() {
 		return {
 			currentLang: 'en'
 		}
 	},
-	/* add: */
 	methods: {
 		switchLang(lang) {
 			this.currentLang = lang
 		}
-	}
+	} 
+	*/
 }
 
 export default LangSwitcher
