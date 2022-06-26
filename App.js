@@ -8,7 +8,7 @@ const App = {
 		:switchLang="switchLang" 
 		:currentLang="currentLang" 
 	/>
-	<vue-keyboard />
+	<vue-keyboard :currentLang="currentLang" />
 	`,
 	components: {
 		'vue-lang-switcher': LangSwitcher,
