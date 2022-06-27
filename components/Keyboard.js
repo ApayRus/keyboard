@@ -30,6 +30,7 @@ const Keyboard = {
 				:keyContent="keyContent" 
 				:activeKey="activeKey" 
 				:setActiveKey="setActiveKey" 
+				:playKey="playKey"
 				:toggleShiftKey="toggleShiftKey" 
 				:shiftKey="shiftKey" 
 			/>
@@ -60,16 +61,11 @@ const Keyboard = {
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
 			const { code, shiftKey } = event
-			/* replace : 
 
-			const keyContent = this.keyboardData[this.currentLang]
-				.flat()
-				.find(elem => elem.code === code)
-
-			with : */
 			const keyContent = this.getKeyContent(this.currentLang, code)
 
 			this.setActiveKey(keyContent)
+			this.playKey(keyContent)
 		})
 
 		window.addEventListener('keydown', event => {
@@ -95,18 +91,20 @@ const Keyboard = {
 		getKeyContent(lang, code) {
 			return this.keyboardData[lang].flat().find(elem => elem.code === code)
 		},
-		/* add: */
 		setActiveKey(keyContent) {
+			this.activeKey = keyContent
+			clearTimeout(this.timeout)
+			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
+		},
+		playKey(keyContent) {
 			const { code } = keyContent
 			const { shiftKey, currentLang } = this
 
-			// we created a new function
-			// because we call all this code twice in this method
 			const playKeyAudio = (lang, code, shiftKey) => {
 				const keyContent = this.getKeyContent(lang, code)
 				const fileName = getAudioFileName(keyContent, shiftKey)
 				const audio = new Audio(`../keyboardData/${lang}/${fileName}.mp3`)
-				return audio.play() // promise, we can catch error if file doesn't exist
+				return audio.play()
 			}
 
 			playKeyAudio(currentLang, code, shiftKey).catch(() => {
@@ -115,10 +113,6 @@ const Keyboard = {
 					playKeyAudio('en', code, shiftKey)
 				}
 			})
-
-			this.activeKey = keyContent
-			clearTimeout(this.timeout)
-			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
 		},
 		toggleShiftKey() {
 			this.shiftKey = !this.shiftKey

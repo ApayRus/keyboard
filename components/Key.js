@@ -42,6 +42,8 @@ const Key = {
 		keyContent: Object,
 		activeKey: Object,
 		setActiveKey: Function,
+		// add:
+		playKey: Function,
 		toggleShiftKey: Function,
 		shiftKey: Boolean
 	},
@@ -68,6 +70,9 @@ const Key = {
 	methods: {
 		keyClick(keyContent) {
 			this.setActiveKey(keyContent)
+			// add:
+			this.playKey(keyContent)
+
 			if (keyContent.code.includes('Shift')) {
 				this.toggleShiftKey()
 			}
