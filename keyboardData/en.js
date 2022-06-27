@@ -17,27 +17,32 @@ const keyboard = [
 		{
 			code: 'Digit1',
 			main: '1',
-			shifted: '!'
+			shifted: '!',
+			shiftedName: 'exclamation mark'
 		},
 		{
 			code: 'Digit2',
 			main: '2',
-			shifted: '@'
+			shifted: '@',
+			shiftedName: 'at sign'
 		},
 		{
 			code: 'Digit3',
 			main: '3',
-			shifted: '#'
+			shifted: '#',
+			shiftedName: 'hash'
 		},
 		{
 			code: 'Digit4',
 			main: '4',
-			shifted: '$'
+			shifted: '$',
+			shiftedName: 'dollar sign'
 		},
 		{
 			code: 'Digit5',
 			main: '5',
-			shifted: '%'
+			shifted: '%',
+			shiftedName: 'percent sign'
 		}
 	],
 	[
@@ -66,11 +71,13 @@ const keyboard = [
 	[
 		{
 			code: 'ShiftLeft',
-			label: 'Shift'
+			label: 'Shift',
+			mainName: 'left shift'
 		},
 		{
 			code: 'ShiftRight',
-			label: 'Shift'
+			label: 'Shift',
+			mainName: 'right shift'
 		}
 	]
 ]

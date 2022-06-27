@@ -22,7 +22,7 @@ const Keyboard = {
 	<div>shiftKey: {{shiftKey}}</div>
 	<div class="keyboard">
 		<div
-			v-for="(row, index) in keyboardData"
+			v-for="(row, index) in keyboardData[currentLang]"
 			:class="['row', 'row-'+(index+1)]"
 		>
 			<vue-key
@@ -60,9 +60,15 @@ const Keyboard = {
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
 			const { code, shiftKey } = event
-			const keyContent = this.keyboardData
+			/* replace : 
+
+			const keyContent = this.keyboardData[this.currentLang]
 				.flat()
 				.find(elem => elem.code === code)
+
+			with : */
+			const keyContent = this.getKeyContent(this.currentLang, code)
+
 			this.setActiveKey(keyContent)
 		})
 
@@ -84,16 +90,32 @@ const Keyboard = {
 			const { default: keyboardData } = await import(
 				`../keyboardData/${lang}.js`
 			)
-			this.keyboardData = keyboardData
+			this.keyboardData[lang] = keyboardData
 		},
+		getKeyContent(lang, code) {
+			return this.keyboardData[lang].flat().find(elem => elem.code === code)
+		},
+		/* add: */
 		setActiveKey(keyContent) {
-			/* add: */
-			const fileName = getAudioFileName(keyContent, this.shiftKey)
-			const audio = new Audio(
-				`./keyboardData/${this.currentLang}/${fileName}.mp3`
-			)
-			audio.play()
-			//
+			const { code } = keyContent
+			const { shiftKey, currentLang } = this
+
+			// we created a new function
+			// because we call all this code twice in this method
+			const playKeyAudio = (lang, code, shiftKey) => {
+				const keyContent = this.getKeyContent(lang, code)
+				const fileName = getAudioFileName(keyContent, shiftKey)
+				const audio = new Audio(`../keyboardData/${lang}/${fileName}.mp3`)
+				return audio.play() // promise, we can catch error if file doesn't exist
+			}
+
+			playKeyAudio(currentLang, code, shiftKey).catch(() => {
+				// fallback
+				if (this.currentLang !== 'en') {
+					playKeyAudio('en', code, shiftKey)
+				}
+			})
+
 			this.activeKey = keyContent
 			clearTimeout(this.timeout)
 			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
