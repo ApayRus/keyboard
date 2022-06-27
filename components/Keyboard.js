@@ -1,5 +1,21 @@
 import Key from './Key.js'
 
+const getAudioFileName = (keyContent, shiftKey) => {
+	const { main, mainName, shifted, shiftedName, code } = keyContent
+
+	let fileName
+
+	if (shiftKey) {
+		// will be returned 1 of 3 values (if it exist). priority to the first one
+		fileName = shiftedName || shifted || code
+	} else {
+		fileName = mainName || main || code
+	}
+
+	// to have a guarantee, that everything is written in the same (lower) case
+	return fileName.toLowerCase()
+}
+
 const Keyboard = {
 	template: `
 	<div>activeKey: {{activeKey}}</div>
@@ -71,6 +87,13 @@ const Keyboard = {
 			this.keyboardData = keyboardData
 		},
 		setActiveKey(keyContent) {
+			/* add: */
+			const fileName = getAudioFileName(keyContent, this.shiftKey)
+			const audio = new Audio(
+				`./keyboardData/${this.currentLang}/${fileName}.mp3`
+			)
+			audio.play()
+			//
 			this.activeKey = keyContent
 			clearTimeout(this.timeout)
 			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
