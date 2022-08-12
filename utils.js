@@ -45,6 +45,6 @@ export const loadKeyboardData = async lang => {
 
 export const playKeyAudio = (lang, keyContent, shiftKey) => {
 	const fileName = getAudioFileName(keyContent, shiftKey)
-	const audio = new Audio(`../keyboardData/${lang}/${fileName}.mp3`)
+	const audio = new Audio(`../keyboardData/sounds/${lang}/${fileName}.mp3`)
 	return audio.play()
 }
