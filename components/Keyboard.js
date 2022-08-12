@@ -1,20 +1,5 @@
 import Key from './Key.js'
-
-const getAudioFileName = (keyContent, shiftKey) => {
-	const { main, mainName, shifted, shiftedName, code } = keyContent
-
-	let fileName
-
-	if (shiftKey) {
-		// will be returned 1 of 3 values (if it exist). priority to the first one
-		fileName = shiftedName || shifted || code
-	} else {
-		fileName = mainName || main || code
-	}
-
-	// to have a guarantee, that everything is written in the same (lower) case
-	return fileName.toLowerCase()
-}
+import { getAudioFileName, loadKeyboardData, playKeyAudio } from '../utils.js'
 
 const Keyboard = {
 	template: `
@@ -52,11 +37,11 @@ const Keyboard = {
 	},
 	watch: {
 		currentLang: function (currentLang) {
-			this.getKeyboardData(currentLang)
+			this.setKeyboardData(currentLang)
 		}
 	},
 	mounted() {
-		this.getKeyboardData(this.currentLang)
+		this.setKeyboardData(this.currentLang)
 
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
@@ -82,11 +67,8 @@ const Keyboard = {
 	},
 
 	methods: {
-		async getKeyboardData(lang) {
-			const { default: keyboardData } = await import(
-				`../keyboardData/${lang}.js`
-			)
-			this.keyboardData[lang] = keyboardData
+		async setKeyboardData(lang) {
+			this.keyboardData[lang] = await loadKeyboardData(lang)
 		},
 		getKeyContent(lang, code) {
 			return this.keyboardData[lang].flat().find(elem => elem.code === code)
@@ -100,17 +82,11 @@ const Keyboard = {
 			const { code } = keyContent
 			const { shiftKey, currentLang } = this
 
-			const playKeyAudio = (lang, code, shiftKey) => {
-				const keyContent = this.getKeyContent(lang, code)
-				const fileName = getAudioFileName(keyContent, shiftKey)
-				const audio = new Audio(`../keyboardData/${lang}/${fileName}.mp3`)
-				return audio.play()
-			}
-
-			playKeyAudio(currentLang, code, shiftKey).catch(() => {
+			playKeyAudio(currentLang, keyContent, shiftKey).catch(() => {
 				// fallback
 				if (this.currentLang !== 'en') {
-					playKeyAudio('en', code, shiftKey)
+					const keyContent = this.getKeyContent('en', code)
+					playKeyAudio('en', keyContent, shiftKey)
 				}
 			})
 		},
