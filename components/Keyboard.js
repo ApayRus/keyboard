@@ -1,5 +1,5 @@
 import Key from './Key.js'
-import { getAudioFileName, loadKeyboardData, playKeyAudio } from '../utils.js'
+import { loadKeyboardData, playKeyAudio, getKeyContent } from '../utils.js'
 
 const Keyboard = {
 	template: `
@@ -47,7 +47,11 @@ const Keyboard = {
 			event.preventDefault()
 			const { code, shiftKey } = event
 
+			/* replace: 
 			const keyContent = this.getKeyContent(this.currentLang, code)
+			with next 2 lines */
+			const keyboardData = this.keyboardData[this.currentLang]
+			const keyContent = getKeyContent({ keyboardData, code })
 
 			this.setActiveKey(keyContent)
 			this.playKey(keyContent)
@@ -85,7 +89,11 @@ const Keyboard = {
 			playKeyAudio(currentLang, keyContent, shiftKey).catch(() => {
 				// fallback
 				if (this.currentLang !== 'en') {
+					/* replace: 
 					const keyContent = this.getKeyContent('en', code)
+					with next 2 lines */
+					const keyboardData = this.keyboardData['en']
+					const keyContent = getKeyContent({ keyboardData, code })
 					playKeyAudio('en', keyContent, shiftKey)
 				}
 			})
