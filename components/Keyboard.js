@@ -3,8 +3,6 @@ import { loadKeyboardData, playKeyAudio, getKeyContent } from '../utils.js'
 
 const Keyboard = {
 	template: `
-	<div>activeKey: {{activeKey}}</div>
-	<div>shiftKey: {{shiftKey}}</div>
 	<div class="keyboard">
 		<div
 			v-for="(row, index) in keyboardData[currentLang]"
