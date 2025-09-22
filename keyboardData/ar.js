@@ -12,7 +12,8 @@ const keys = [
 		{ code: 'F9' },
 		{ code: 'F10' },
 		{ code: 'F11' },
-		{ code: 'F12' }
+		{ code: 'F12' },
+		{ code: 'Delete', label: 'Del' }
 	],
 	[
 		{

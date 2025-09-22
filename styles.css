@@ -38,6 +38,22 @@
 	transform-origin: center;
 }
 
+/* held: while key is physically pressed */
+.key.held {
+	background-color: red;
+}
+
+/* demo icon toggle */
+.demoIcon {
+	cursor: pointer;
+	user-select: none;
+	font-size: 1.25rem;
+	color: gray;
+}
+.demoIcon.active {
+	color: red;
+}
+
 @keyframes pulse {
 	0% {
 		background-color: black;
@@ -74,15 +90,38 @@
 	font-size: 0.7rem;
 }
 
-.key.shiftKeyPressed {
-	color: red;
-	font-weight: bold;
-}
+/* removed special Shift highlight */
 
 .langSwitcher {
 	display: flex;
-	justify-content: center; /* center horizontally  */
+}
+
+.topPanel {
+	display: flex;
+	justify-content: center; /* center horizontally */
+	align-items: center; /* vertical align */
+	gap: 0.5rem;
 	margin-bottom: 1rem;
+}
+
+/* demo toggle styled to match .lang buttons */
+.demoToggle {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 1rem;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
+	background-color: transparent;
+}
+.demoToggle.active {
+	background-color: red;
+	color: white;
+}
+.demoToggle:hover {
+	opacity: 0.7;
 }
 
 .lang {
