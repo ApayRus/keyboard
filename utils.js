@@ -39,13 +39,13 @@ export const getKeyLabels = keyContent => {
 }
 
 export const loadKeyboardData = async lang => {
-	const { default: keyboardData } = await import(`../keyboardData/${lang}.js`)
+	const { default: keyboardData } = await import(`./keyboardData/${lang}.js`)
 	return keyboardData
 }
 
 export const playKeyAudio = (lang, keyContent, shiftKey) => {
 	const fileName = getAudioFileName(keyContent, shiftKey)
-	const audio = new Audio(`../keyboardData/sounds/${lang}/${fileName}.mp3`)
+	const audio = new Audio(`./keyboardData/sounds/${lang}/${fileName}.mp3`)
 	return audio.play()
 }
 
